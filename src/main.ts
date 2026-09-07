@@ -762,8 +762,10 @@ if (import.meta.env.DEV && new URLSearchParams(location.search).has('inspect')) 
       for (let t = 0; t < Math.min(seconds, 300); t += 1 / 60)
         updateSimulation(Math.min(1 / 60, seconds - t));
       stage.update(1 / 60);
+      // Keep geometry queries current; the animation loop paints after a batch of manual steps.
+      scene.updateMatrixWorld(true);
+      camera.updateMatrixWorld(true);
       updateSpeech();
-      renderer.render(scene, camera);
     },
     screenPoint(id: ToyId) {
       const toy = toys.find((t) => t.id === id)!;
