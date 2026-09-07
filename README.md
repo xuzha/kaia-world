@@ -28,7 +28,9 @@ npm run test:e2e    # 真实浏览器交互、动画和手机布局测试
 
 在 GitHub 仓库的 **Settings → Pages → Build and deployment** 中选择 **GitHub Actions**，然后将代码推送到 `main`。
 
-工作流会从公开 npm 安装锁定的依赖，检查格式，运行单元测试和 Chromium 浏览器测试，再构建并发布 `dist/`。Pull request 运行同样的检查；`main` 的推送和手动触发会更新网站。发布地址可在仓库的 **Actions → Validate and deploy Kaia → deploy** 中查看。
+工作流会从公开 npm 安装锁定的依赖，检查格式，运行单元测试和 Chromium 浏览器测试，并构建 `dist/`。Pull request 运行同样的检查；`main` 的推送和手动触发会更新网站。发布地址可在仓库的 **Actions → Validate and deploy Kaia → deploy** 中查看。
+
+浏览器测试分四组并行执行，构建和所有测试通过后才会发布。失败时可在 Actions 下载截图和测试轨迹。
 
 网站使用相对资源路径，支持 GitHub Pages 的仓库子目录，也可以把 `dist/` 放到其他静态网站托管服务。
 
