@@ -1,5 +1,5 @@
 :root {
-  font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
   color: #595647;
   background: #f3f0e7;
   font-synthesis: none;
@@ -9,7 +9,7 @@
   --olive: #7e8b69;
   --paper: #f8f5ed;
   --line: #dfdacf;
-  --serif: 'Songti SC', 'STSong', 'Noto Serif CJK SC', Georgia, serif;
+  --serif: Georgia, 'Times New Roman', serif;
 }
 * {
   box-sizing: border-box;
@@ -246,7 +246,7 @@ button svg {
 }
 .intro h1 {
   font: 500 40px/1.7 var(--serif);
-  letter-spacing: 3px;
+  letter-spacing: 0.3px;
   color: #555744;
   margin: 24px 0 12px;
 }
@@ -258,7 +258,7 @@ button svg {
   position: absolute;
   bottom: -9px;
   left: -1px;
-  width: 85px;
+  width: 100%;
   stroke: #b2b99c;
   stroke-width: 1.4;
   fill: none;
@@ -600,7 +600,7 @@ button svg {
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  font: 13px var(--serif);
+  font: 9px var(--serif);
   font-weight: 600;
 }
 .mom-avatar {
@@ -1243,13 +1243,12 @@ button svg {
     font-size: 25px;
     margin: 14px 0;
     line-height: 1.55;
-    letter-spacing: 2px;
+    letter-spacing: 0.3px;
   }
   .intro h1 br {
     display: none;
   }
   .storybook svg {
-    width: 53px;
     bottom: -6px;
   }
   .english-line {
@@ -1570,7 +1569,7 @@ button svg {
   .parent-avatar {
     width: 24px;
     height: 24px;
-    font-size: 12px;
+    font-size: 9px;
   }
   .toy-dock {
     width: calc(100% - 30px);
@@ -1631,6 +1630,17 @@ button svg {
   .speech > span {
     font-size: 10px;
     margin-left: 5px;
+  }
+}
+@media (min-height: 521px) and (max-height: 700px) and (max-width: 540px) {
+  .scene-toolbar {
+    top: 78px;
+    bottom: auto;
+    flex-direction: row;
+    padding: 3px 6px;
+  }
+  .scene-toolbar .toolbar-rule {
+    display: none;
   }
 }
 @media (max-height: 520px) and (max-width: 950px) {

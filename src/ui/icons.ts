@@ -61,7 +61,7 @@ export function toyIcon(id: ToyId) {
   return `<svg viewBox="0 0 64 64" fill="none" aria-hidden="true">${toys[id]}</svg>`;
 }
 export function avatar() {
-  return `<img src="${import.meta.env.BASE_URL}favicon.svg" width="43" height="43" alt="Kaia 的头像" />`;
+  return `<img src="${import.meta.env.BASE_URL}favicon.svg" width="43" height="43" alt="Kaia’s portrait" />`;
 }
 export function flower() {
   return '<svg width="35" height="35" viewBox="0 0 40 40" aria-hidden="true"><g fill="#a2ad8f"><ellipse cx="20" cy="10" rx="5" ry="8"/><ellipse cx="20" cy="30" rx="5" ry="8"/><ellipse cx="10" cy="20" rx="8" ry="5"/><ellipse cx="30" cy="20" rx="8" ry="5"/><ellipse cx="13" cy="13" rx="5" ry="7" transform="rotate(-45 13 13)"/><ellipse cx="27" cy="27" rx="5" ry="7" transform="rotate(-45 27 27)"/><ellipse cx="13" cy="27" rx="5" ry="7" transform="rotate(45 13 27)"/><ellipse cx="27" cy="13" rx="5" ry="7" transform="rotate(45 27 13)"/></g><circle cx="20" cy="20" r="6" fill="#eee0b9"/></svg>';

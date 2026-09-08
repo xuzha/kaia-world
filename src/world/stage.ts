@@ -18,7 +18,7 @@ export function createStage(container: HTMLElement) {
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 0.97;
-  renderer.domElement.setAttribute('aria-label', 'Kaia 在温暖的游戏室里玩耍');
+  renderer.domElement.setAttribute('aria-label', 'Kaia playing in a cozy playroom');
   renderer.domElement.setAttribute('role', 'img');
   container.prepend(renderer.domElement);
   const pmrem = new THREE.PMREMGenerator(renderer);
@@ -169,7 +169,7 @@ export function createStage(container: HTMLElement) {
       scene.fog = story && story !== 'space' ? storyFog : null;
       renderer.domElement.setAttribute(
         'aria-label',
-        story ? stories[story].canvasLabel : 'Kaia 在温暖的游戏室里玩耍',
+        story ? stories[story].canvasLabel : 'Kaia playing in a cozy playroom',
       );
       this.home();
     },

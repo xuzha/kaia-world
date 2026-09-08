@@ -43,7 +43,10 @@ export class Family {
   invite(kind: ParentKind) {
     const visitor = this.visits[kind];
     if (visitor.state !== 'away') {
-      this.announce(kind, kind === 'mom' ? '妈妈在这里，慢慢玩呀。' : '爸爸已经加入你的小世界啦。');
+      this.announce(
+        kind,
+        kind === 'mom' ? 'Mom’s here. Take your time, sweetheart.' : 'Dad’s here to play!',
+      );
       return;
     }
     const position = this.child.root.position;
@@ -82,7 +85,7 @@ export class Family {
     visitor.elapsed = 0;
     this.announce(
       kind,
-      kind === 'mom' ? '妈妈来啦，带着一个大大的拥抱。' : '爸爸来串门：这里还缺一个玩伴吗？',
+      kind === 'mom' ? 'Mom’s here with a big hug!' : 'Dad’s dropping by. Room for one more?',
     );
     this.nextVisit = 46 + Math.random() * 30;
   }

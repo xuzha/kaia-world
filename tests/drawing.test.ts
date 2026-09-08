@@ -4,7 +4,7 @@ import { drawingOutline, maxDrawingPoints, validDrawing } from '../src/play/draw
 describe('saved drawings', () => {
   const drawing = {
     version: 1,
-    name: '小棉兔',
+    name: 'Cotton Bunny',
     strokes: [
       {
         color: '#c98770',

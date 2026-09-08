@@ -132,7 +132,7 @@ test('the whole ship fits on a phone and room mode returns to its original camer
   expect(bounds.overflow).toBe(false);
   expect(Math.max(...bounds.max)).toBeLessThan(0.97);
   expect(Math.min(...bounds.min)).toBeGreaterThan(-0.97);
-  await expect(page.locator('#world canvas')).toHaveAttribute('aria-label', /大船甲板/);
+  await expect(page.locator('#world canvas')).toHaveAttribute('aria-label', /deck of a ship/);
   await page.screenshot({ path: 'artifacts/voyage-mobile.jpg', type: 'jpeg', quality: 65 });
   await page.locator('#open-imagination').click();
   await page.locator('#leave-story').click();
@@ -140,6 +140,6 @@ test('the whole ship fits on a phone and room mode returns to its original camer
   await expect
     .poll(() => page.evaluate(() => (window as any).__KAIA__.state().camera.zoom))
     .toBeCloseTo(1);
-  await expect(page.locator('#world canvas')).toHaveAttribute('aria-label', /温暖的游戏室/);
-  await expect(page.locator('#world-name')).toHaveText('Kaia 的游戏室');
+  await expect(page.locator('#world canvas')).toHaveAttribute('aria-label', /cozy playroom/);
+  await expect(page.locator('#world-name')).toHaveText('Kaia’s playroom');
 });

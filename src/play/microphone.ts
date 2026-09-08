@@ -1,7 +1,7 @@
 export class MicrophoneBlower {
   state: 'off' | 'requesting' | 'on' = 'off';
   level = 0;
-  message = '点泡泡就能戳破。麦克风只检测音量，不录音。';
+  message = 'Tap bubbles to pop them. The mic measures volume only; it never records.';
   private generation = 0;
   private stream?: MediaStream;
   private context?: AudioContext;
@@ -19,7 +19,8 @@ export class MicrophoneBlower {
     if (this.state !== 'off') return;
     const generation = ++this.generation;
     this.state = 'requesting';
-    this.message = '允许麦克风后，轻轻吹一口气。也可以随时点按钮吹泡泡。';
+    this.message =
+      'Allow microphone access, then blow gently. You can also tap the button anytime.';
     this.onChange();
     try {
       if (!navigator.mediaDevices?.getUserMedia) throw new Error('unavailable');
@@ -43,14 +44,15 @@ export class MicrophoneBlower {
       this.source.connect(this.analyser);
       for (const track of stream.getTracks())
         track.addEventListener('ended', () => {
-          if (generation === this.generation) this.stop('麦克风已断开，点按钮也能继续吹泡泡。');
+          if (generation === this.generation)
+            this.stop('The microphone disconnected. Tap the button to keep blowing bubbles.');
         });
       this.state = 'on';
-      this.message = '对着麦克风轻轻吹气。只检测音量，不录音。';
+      this.message = 'Blow gently into your mic. It measures volume only and never records.';
       this.onChange();
     } catch {
       if (generation === this.generation)
-        this.stop('没能打开麦克风，点「吹一口泡泡」也可以一起玩。');
+        this.stop('Couldn’t open the microphone. Tap “Blow bubbles” to keep playing.');
     }
   }
 
@@ -68,7 +70,7 @@ export class MicrophoneBlower {
     }
   }
 
-  stop(message = '麦克风已关闭。点按钮也能吹泡泡。') {
+  stop(message = 'The microphone is off. You can still tap the button to blow bubbles.') {
     this.generation++;
     this.source?.disconnect();
     this.stream?.getTracks().forEach((track) => track.stop());

@@ -29,7 +29,7 @@ try {
   stage = createStage(container);
 } catch (error) {
   el('loading').innerHTML =
-    '<p>小世界需要支持 WebGL 2 的浏览器。</p><p>试试更新 Chrome、Edge 或 Safari，再来找 Kaia 吧。</p><button onclick="location.reload()">重新打开小世界</button>';
+    '<p>This little world needs a browser with WebGL 2 support.</p><p>Try updating Chrome, Edge, or Safari, then come back to play with Kaia.</p><button onclick="location.reload()">Try again</button>';
   throw error;
 }
 const { scene, camera, renderer, controls } = stage;
@@ -71,31 +71,31 @@ function playEvent(event: PlayEvent) {
   if (!toy) return;
   if (event.type === 'walk') {
     selectToy(toy);
-    activity(`去找${toy.name}啦`);
-    say(`去看看${toy.name}！`, 4);
+    activity(`Heading to ${toy.name}`);
+    say(`Time for ${toy.name}!`, 4);
   }
   if (event.type === 'pace') {
-    activity(`${event.running ? '小跑去找' : '去找'}${toy.name}啦`);
-    if (event.running) say('跑两步，去玩啦！', 2.5);
+    activity(`${event.running ? 'Running to' : 'Heading to'} ${toy.name}`);
+    if (event.running) say('Let’s run over and play!', 2.5);
   }
   if (event.type === 'play') {
     if (imagination.state === 'ocean' && toy.id === 'horse') {
-      activity('乘小帆船去看海');
-      say('扬帆，去找小海星！');
+      activity('Sailing out to sea');
+      say('Sails up! Let’s find a starfish!');
     } else if (imagination.state === 'ocean' && toy.id === 'castle') {
-      activity('爬上灯塔看一看');
-      say('灯塔亮啦，小船往这里走！');
+      activity('Climbing the lighthouse');
+      say('The lighthouse is on! This way, little boats!');
     } else {
       activity(toy.activity);
       say(toy.thought);
     }
   }
   if (event.type === 'queue') {
-    toast(`好呀！玩好这个，就去找${toy.name}。`);
+    toast(`Yes! ${toy.name} is next, once Kaia finishes playing here.`);
   }
   if (event.type === 'finish') {
-    activity('又发现了一点小快乐');
-    say('还想再玩点什么呢？', 3.5);
+    activity('Found another little joy');
+    say('What shall we play next?', 3.5);
     document.querySelector(`[data-toy="${toy.id}"]`)?.classList.add('visited');
     el('visited-count').textContent = String(director.visited.size);
     atmosphere.hearts(kaia.root.position, 3);
@@ -121,7 +121,7 @@ const imagination = new Imagination(scene, room.root, toys, kaia.book, refreshIm
 function refreshMicrophone() {
   const button = el('bubble-mic');
   button.setAttribute('aria-pressed', String(microphone.state !== 'off'));
-  button.innerHTML = `${icon('mic', 16)} ${microphone.state === 'off' ? '用麦克风吹' : '关闭麦克风'}`;
+  button.innerHTML = `${icon('mic', 16)} ${microphone.state === 'off' ? 'Use microphone' : 'Turn off mic'}`;
   el('mic-status').textContent = microphone.message;
   el('mic-level').hidden = microphone.state !== 'on';
   (el('mic-level') as HTMLMeterElement).value = microphone.level;
@@ -133,10 +133,10 @@ function refreshTogether() {
   refreshModeLabel();
   if (!mode) return;
   const titles = {
-    roll: '小球，滚过来',
-    hide: '小熊藏在哪里？',
-    bubbles: '吹一口，满屋泡泡',
-    plush: `和${plush.name}做朋友`,
+    roll: 'Roll the ball',
+    hide: 'Find Teddy',
+    bubbles: 'Bubble time',
+    plush: `Hello, ${plush.name}`,
   };
   el('together-title').textContent = titles[mode];
   el('together-status').textContent = together.status;
@@ -145,7 +145,7 @@ function refreshTogether() {
     el(`${name}-controls`).hidden = (name === 'bubble' ? 'bubbles' : name) !== mode;
   (el('roll-ball') as HTMLButtonElement).disabled =
     together.mode !== 'roll' || together.phase !== 'ready';
-  el('roll-count').textContent = together.rounds ? `已经来回 ${together.rounds} 次` : '';
+  el('roll-count').textContent = together.rounds ? `Passes: ${together.rounds}` : '';
   document.querySelectorAll<HTMLButtonElement>('[data-hide]').forEach((button) => {
     button.disabled = together.mode !== 'hide' || together.phase !== 'choosing';
     button.setAttribute('aria-pressed', String(Number(button.dataset.hide) === together.hiddenAt));
@@ -157,8 +157,8 @@ function refreshTogether() {
     together.mode !== 'plush' || together.phase !== 'ready';
 }
 function refreshModeLabel() {
-  let label = director.auto ? '自由探索中' : '等你的下一次邀请';
-  if (together.busy) label = '正在一起玩';
+  let label = director.auto ? 'Exploring freely' : 'Waiting for you';
+  if (together.busy) label = 'Playing together';
   el('mode-label').textContent = label;
 }
 function refreshStoryChoice() {
@@ -169,10 +169,10 @@ function refreshStoryChoice() {
   const waiting = imagination.state === 'opening' && imagination.story === selectedStory;
   (el('enter-story') as HTMLButtonElement).disabled = waiting;
   const label = waiting
-    ? '等 Kaia 翻开绘本…'
+    ? 'Kaia is opening the book…'
     : imagination.activeStory === selectedStory
-      ? `继续${stories[selectedStory].name}冒险`
-      : `翻开${stories[selectedStory].name}绘本`;
+      ? `Continue the ${stories[selectedStory].name} adventure`
+      : `Open the ${stories[selectedStory].name} story`;
   el('enter-story').innerHTML = `${label} ${icon('arrow', 17)}`;
 }
 function refreshImagination() {
@@ -181,7 +181,7 @@ function refreshImagination() {
   document.body.classList.toggle('imagining', !!story);
   stage.setStory(story);
   el('open-imagination').setAttribute('aria-pressed', String(imagination.state !== 'room'));
-  el('world-name').textContent = story ? stories[story].worldName : 'Kaia 的游戏室';
+  el('world-name').textContent = story ? stories[story].worldName : 'Kaia’s playroom';
   el('leave-story').hidden = imagination.state === 'room';
   refreshStoryChoice();
   refreshWeather();
@@ -214,7 +214,8 @@ try {
     if (plush.create(drawingPad.canvas, drawing.name)) el('play-with-plush').hidden = false;
   }
 } catch {
-  el('drawing-message').textContent = '仍然可以画画。本次作品可能无法保存在这台设备。';
+  el('drawing-message').textContent =
+    'You can still draw, but your work may not be saved on this device.';
 }
 let lastTime = performance.now();
 const speechPosition = new THREE.Vector3();
@@ -276,13 +277,17 @@ requestAnimationFrame(() => {
 
 function setPaused(value: boolean) {
   paused = value;
-  if (paused && microphone.state !== 'off') microphone.stop('时光暂停了，麦克风也已关闭。');
+  if (paused && microphone.state !== 'off')
+    microphone.stop('Play is paused and the microphone is off.');
   sound.setPaused(paused);
   el('pause').innerHTML = icon(paused ? 'play' : 'pause', 17);
-  el('pause').setAttribute('aria-label', paused ? '继续小世界' : '暂停小世界');
+  el('pause').setAttribute(
+    'aria-label',
+    paused ? 'Resume this little world' : 'Pause this little world',
+  );
   el('pause').setAttribute('aria-pressed', String(paused));
   el('pause-indicator').hidden = !paused;
-  el('pause').dataset.tip = paused ? '继续小小的快乐' : '让时光停一停';
+  el('pause').dataset.tip = paused ? 'Let’s keep playing' : 'Pause for a moment';
 }
 function invite(id: ToyId) {
   stopTogether();
@@ -322,12 +327,15 @@ el('invite-dad').addEventListener('click', () => {
 el('autoplay').addEventListener('click', () => {
   director.auto = !director.auto;
   el('autoplay').setAttribute('aria-pressed', String(director.auto));
-  el('autoplay').setAttribute('aria-label', director.auto ? '关闭自主探索' : '开启自主探索');
+  el('autoplay').setAttribute(
+    'aria-label',
+    director.auto ? 'Turn off free exploration' : 'Turn on free exploration',
+  );
   refreshModeLabel();
   toast(
     director.auto
-      ? '让好奇心带路，Kaia 会自己找喜欢的玩具。'
-      : 'Kaia 会玩好手上的玩具，再等你邀请。',
+      ? 'Let curiosity lead. Kaia will choose her own toys.'
+      : 'Kaia will finish playing, then wait for your invitation.',
   );
 });
 el('sound').addEventListener('click', async () => {
@@ -335,10 +343,13 @@ el('sound').addEventListener('click', async () => {
     const enabled = await sound.toggle();
     el('sound').innerHTML = icon(enabled ? 'volume' : 'muted');
     el('sound').setAttribute('aria-pressed', String(enabled));
-    el('sound').setAttribute('aria-label', enabled ? '关闭轻柔音乐' : '开启轻柔音乐');
-    toast(enabled ? '声音轻一点，小小的世界刚刚好。' : '静静地陪她玩，也很好。');
+    el('sound').setAttribute(
+      'aria-label',
+      enabled ? 'Turn off gentle music' : 'Turn on gentle music',
+    );
+    toast(enabled ? 'A little music for a little world.' : 'Quiet playtime is lovely too.');
   } catch {
-    toast('声音暂时没能打开，再点一下试试。');
+    toast('The music couldn’t start. Tap again to try.');
   }
 });
 let night = false;
@@ -348,21 +359,27 @@ function refreshWeather() {
   const label =
     story === 'forest'
       ? night
-        ? '夜更深了'
-        : '月光森林'
+        ? 'Deep night'
+        : 'Moonlit forest'
       : story === 'polar'
         ? night
-          ? '极夜时分'
-          : '极光时分'
+          ? 'Polar night'
+          : 'Aurora glow'
         : night
-          ? '晚安时光'
-          : '午后阳光';
+          ? 'Goodnight'
+          : 'Afternoon';
   el('weather').innerHTML =
     `${icon(moonlit || night ? 'moon' : 'sun', 18)}<span>${label}</span><i>${moonlit ? '✦' : `${night ? '22' : '24'}°`}</i>`;
   el('weather').setAttribute('aria-pressed', String(night));
   el('weather').setAttribute(
     'aria-label',
-    moonlit ? (night ? '调亮夜景' : '调暗夜景') : night ? '切换到午后阳光' : '切换到晚安时光',
+    moonlit
+      ? night
+        ? 'Brighten the night'
+        : 'Dim the lights'
+      : night
+        ? 'Switch to afternoon light'
+        : 'Switch to bedtime',
   );
 }
 el('weather').addEventListener('click', () => {
@@ -372,12 +389,12 @@ el('weather').addEventListener('click', () => {
   refreshWeather();
   say(
     imagination.activeStory === 'forest'
-      ? '小树屋的灯暖暖的，萤火虫还在呢。'
+      ? 'Warm lights, a little treehouse, and fireflies!'
       : imagination.activeStory === 'polar'
-        ? '看，极光还在慢慢跳舞！'
+        ? 'Look! The northern lights are dancing!'
         : night
-          ? '星星来了，再玩一小会儿～'
-          : '太阳暖暖的，真好呀。',
+          ? 'The stars are here. Just a little more playtime!'
+          : 'The sunshine feels so warm.',
   );
 });
 el('snapshot').addEventListener('click', () => {
@@ -406,7 +423,7 @@ el('snapshot').addEventListener('click', () => {
   link.href = photo.toDataURL('image/png');
   link.download = `kaia-little-moment-${new Date().toISOString().slice(0, 10)}.png`;
   link.click();
-  toast('这一刻的小小快乐，已经收藏成照片。');
+  toast('A little moment of joy, saved as a photo.');
 });
 
 let openDialog: HTMLElement | undefined,
@@ -453,13 +470,13 @@ el('enter-story').addEventListener('click', () => {
   imagination.open(selectedStory);
   if (imagination.state === 'opening') {
     invite('books');
-    toast(`等 Kaia 翻开${stories[selectedStory].name}绘本，我们就一起出发。`);
+    toast(`Our adventure begins when Kaia opens the ${stories[selectedStory].name} story.`);
   }
 });
 el('leave-story').addEventListener('click', () => {
   imagination.close(paused);
   closePanel();
-  say('合上书，阳光和玩具还在这里。');
+  say('The book is closed. Our toys are still here!');
 });
 document.querySelectorAll<HTMLButtonElement>('[data-together]').forEach((button) => {
   button.addEventListener('click', () => {
@@ -469,8 +486,8 @@ document.querySelectorAll<HTMLButtonElement>('[data-together]').forEach((button)
 });
 el('end-together').addEventListener('click', () => {
   stopTogether();
-  activity('谢谢你陪我玩');
-  say('下次还要一起玩呀。');
+  activity('Thanks for playing with me');
+  say('Let’s play together again soon.');
   stage.home();
   el('open-together').focus();
 });
@@ -512,7 +529,7 @@ el('create-plush').addEventListener('click', () => {
   if (!validDrawing(drawing)) return;
   stopTogether();
   if (!plush.create(drawingPad.canvas, drawing.name)) {
-    el('drawing-message').textContent = '再添几笔，让小朋友有个轮廓吧。';
+    el('drawing-message').textContent = 'Add a few more lines to give your friend an outline.';
     return;
   }
   let saved = true;
@@ -523,19 +540,19 @@ el('create-plush').addEventListener('click', () => {
   }
   el('play-with-plush').hidden = false;
   el('drawing-message').textContent = saved
-    ? '作品已保存在这台设备，下次打开还能见到它。'
-    : '布偶做好啦；这次没能保存，刷新后需要重新画。';
+    ? 'Your friend is saved on this device and will be here next time.'
+    : 'Your plush is ready, but couldn’t be saved. You’ll need to draw it again after reloading.';
   closePanel();
   startTogether('plush');
   toast(
     saved
-      ? `「${drawing.name}」来到小世界啦！Kaia 要来抱抱它。`
-      : '布偶做好啦！这次没能保存，刷新后需要重新画。',
+      ? `Welcome, ${drawing.name}! Kaia is coming over for a hug.`
+      : 'Your plush is ready, but couldn’t be saved. You’ll need to draw it again after reloading.',
   );
 });
 document.addEventListener('visibilitychange', () => {
   if (document.hidden && microphone.state !== 'off')
-    microphone.stop('离开页面时，麦克风已自动关闭。');
+    microphone.stop('The microphone turned off when you left the page.');
 });
 window.addEventListener('pagehide', () => {
   if (microphone.state !== 'off') microphone.stop();
@@ -635,12 +652,12 @@ renderer.domElement.addEventListener('pointermove', (e) => {
   el('toy-tooltip').hidden = !pick;
   if (pick) {
     const labels = {
-      plush: `${plush.name} · 抱一抱`,
-      hide: '把小熊藏在这里',
-      bubble: '啵！戳破泡泡',
+      plush: `${plush.name} · Give a hug`,
+      hide: 'Hide Teddy here',
+      bubble: 'Pop this bubble!',
     };
     el('toy-tooltip').textContent =
-      pick.kind === 'toy' ? pick.toy.name + ' · 一起玩' : labels[pick.kind];
+      pick.kind === 'toy' ? pick.toy.name + ' · Let’s play' : labels[pick.kind];
     const rect = container.getBoundingClientRect();
     el('toy-tooltip').style.left = `${Math.min(e.clientX - rect.left + 15, rect.width - 154)}px`;
     el('toy-tooltip').style.top = `${e.clientY - rect.top - 38}px`;

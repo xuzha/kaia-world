@@ -15,58 +15,58 @@ function storyArt(story: StoryId) {
 }
 
 export function wonderBar() {
-  return `<nav class="wonder-bar" aria-label="奇妙玩法">
-    <button id="open-imagination" aria-haspopup="dialog">${icon('sparkle', 17)}<span>去想象</span></button>
-    <button id="open-drawing" aria-haspopup="dialog">${icon('pencil', 17)}<span>画个玩具</span></button>
-    <button id="open-together" aria-haspopup="dialog">${icon('heart', 17)}<span>一起玩</span></button>
+  return `<nav class="wonder-bar" aria-label="More ways to play">
+    <button id="open-imagination" aria-haspopup="dialog">${icon('sparkle', 17)}<span>Imagine</span></button>
+    <button id="open-drawing" aria-haspopup="dialog">${icon('pencil', 17)}<span>Draw a toy</span></button>
+    <button id="open-together" aria-haspopup="dialog">${icon('heart', 17)}<span>Play together</span></button>
   </nav>
-  <section id="together-card" class="together-card" aria-label="一起玩" hidden>
-    <div class="play-card-top"><strong id="together-title">一起玩</strong><button id="end-together" class="icon-button" aria-label="结束一起玩">${icon('close', 17)}</button></div>
+  <section id="together-card" class="together-card" aria-label="Play together" hidden>
+    <div class="play-card-top"><strong id="together-title">Play together</strong><button id="end-together" class="icon-button" aria-label="Finish playing together">${icon('close', 17)}</button></div>
     <p id="together-status" role="status" aria-live="polite"></p>
-    <div id="roll-controls" hidden><button id="roll-ball" class="primary-button">把球滚给 Kaia ${icon('arrow', 16)}</button><span id="roll-count" class="play-count"></span></div>
-    <div id="hide-controls" hidden><div class="hiding-choices"><button data-hide="0">靠枕后面</button><button data-hide="1">小篮子里</button><button data-hide="2">野餐毯下</button></div><button id="hide-again" class="text-button" hidden>再藏一次 ${icon('rotate', 14)}</button></div>
-    <div id="bubble-controls" hidden><div class="bubble-buttons"><button id="blow-bubbles" class="primary-button">${icon('bubbles', 18)} 吹一口泡泡</button><button id="bubble-mic" class="secondary-button" aria-pressed="false">${icon('mic', 16)} 用麦克风吹</button></div><p class="mic-note" id="mic-status" role="status">点泡泡就能戳破。麦克风只检测音量，不录音。</p><meter id="mic-level" min="0" max="1" value="0" aria-label="吹气音量" hidden></meter></div>
-    <div id="plush-controls" hidden><button id="hug-again" class="primary-button">再抱抱新朋友 ${icon('heart', 16)}</button></div>
+    <div id="roll-controls" hidden><button id="roll-ball" class="primary-button">Roll the ball to Kaia ${icon('arrow', 16)}</button><span id="roll-count" class="play-count"></span></div>
+    <div id="hide-controls" hidden><div class="hiding-choices"><button data-hide="0">Behind the cushion</button><button data-hide="1">In the basket</button><button data-hide="2">Under the blanket</button></div><button id="hide-again" class="text-button" hidden>Hide again ${icon('rotate', 14)}</button></div>
+    <div id="bubble-controls" hidden><div class="bubble-buttons"><button id="blow-bubbles" class="primary-button">${icon('bubbles', 18)} Blow bubbles</button><button id="bubble-mic" class="secondary-button" aria-pressed="false">${icon('mic', 16)} Use microphone</button></div><p class="mic-note" id="mic-status" role="status">Tap bubbles to pop them. The mic measures volume only; it never records.</p><meter id="mic-level" min="0" max="1" value="0" aria-label="Blowing volume" hidden></meter></div>
+    <div id="plush-controls" hidden><button id="hug-again" class="primary-button">One more hug ${icon('heart', 16)}</button></div>
   </section>`;
 }
 
 export function wonderPanels() {
   return `<section id="imagination-panel" class="wonder-panel story-panel" role="dialog" aria-modal="true" aria-labelledby="imagination-title" hidden>
-    <div class="panel-top"><span class="eyebrow">A STORY YOU CAN STEP INTO</span><button class="icon-button close-panel" aria-label="关闭想象绘本">${icon('close')}</button></div>
-    <h2 id="imagination-title">今天，想去哪里？</h2>
-    <p class="story-intro">选一本绘本，让整个房间走进故事里。</p>
-    <div class="story-picker" role="group" aria-label="选择想象绘本">${storyIds.map((story) => `<button class="story-card" data-story="${story}" aria-pressed="${story === 'ocean'}"><span class="story-cover">${storyArt(story)}</span><strong>${stories[story].name}</strong><small>${stories[story].subtitle}</small></button>`).join('')}</div>
+    <div class="panel-top"><span class="eyebrow">A STORY YOU CAN STEP INTO</span><button class="icon-button close-panel" aria-label="Close the storybooks">${icon('close')}</button></div>
+    <h2 id="imagination-title">Where shall we go today?</h2>
+    <p class="story-intro">Choose a book and let the whole room step into a story.</p>
+    <div class="story-picker" role="group" aria-label="Choose a storybook">${storyIds.map((story) => `<button class="story-card" data-story="${story}" aria-pressed="${story === 'ocean'}"><span class="story-cover">${storyArt(story)}</span><strong>${stories[story].name}</strong><small>${stories[story].subtitle}</small></button>`).join('')}</div>
     <p id="story-description" class="panel-copy">${stories.ocean.description}</p>
-    <button id="enter-story" class="primary-button">翻开航海绘本 ${icon('arrow', 17)}</button>
-    <button id="leave-story" class="text-button" hidden>合上绘本，回到游戏室</button>
+    <button id="enter-story" class="primary-button">Open the Ocean story ${icon('arrow', 17)}</button>
+    <button id="leave-story" class="text-button" hidden>Close the book and return to the playroom</button>
   </section>
   <section id="drawing-panel" class="wonder-panel drawing-panel" role="dialog" aria-modal="true" aria-labelledby="drawing-title" hidden>
-    <div class="panel-top"><span class="eyebrow">FROM YOUR HANDS, WITH LOVE</span><button class="icon-button close-panel" aria-label="关闭画画桌">${icon('close')}</button></div>
-    <h2 id="drawing-title">画一个，抱得到的朋友。</h2>
-    <p class="panel-copy">画下轮廓，添上颜色。让它变成立体布偶，陪 Kaia 玩。</p>
+    <div class="panel-top"><span class="eyebrow">FROM YOUR HANDS, WITH LOVE</span><button class="icon-button close-panel" aria-label="Close the drawing table">${icon('close')}</button></div>
+    <h2 id="drawing-title">Draw a friend to hug.</h2>
+    <p class="panel-copy">Draw an outline, add some color, and turn it into a soft 3D friend for Kaia.</p>
     <div class="drawing-workspace">
-      <div class="drawing-paper"><canvas id="drawing-canvas" width="384" height="384" aria-label="画玩具的画布，使用鼠标或手指绘画，也可选择下方图案" tabindex="0"></canvas><span id="drawing-hint">小兔、星星，或一只谁也没见过的小怪兽…</span></div>
+      <div class="drawing-paper"><canvas id="drawing-canvas" width="384" height="384" aria-label="Drawing canvas. Draw with a mouse or finger, or choose a starter below." tabindex="0"></canvas><span id="drawing-hint">A bunny, a star, or a creature only you can imagine…</span></div>
       <div class="drawing-tools">
-        <span class="tool-label">挑一支蜡笔</span>
-        <div class="crayon-colors" role="group" aria-label="蜡笔颜色">${drawingColors.map((color, i) => `<button data-crayon="${color}" style="--crayon:${color}" aria-label="${['可可棕', '珊瑚粉', '蜂蜜黄', '鼠尾草绿', '海水蓝', '丁香紫'][i]}" aria-pressed="${i === 0}"></button>`).join('')}</div>
-        <label class="brush-label" for="brush-size">笔触粗细 <input id="brush-size" type="range" min="3" max="24" value="9" /></label>
-        <div class="drawing-edit"><button id="undo-drawing" class="secondary-button" disabled>${icon('undo', 15)} 撤回</button><button id="clear-drawing" class="secondary-button" disabled>清空</button></div>
-        <span class="tool-label starter-label">也可以从这里开始</span>
-        <div class="drawing-starters"><button data-drawing-starter="bunny">一只小兔</button><button data-drawing-starter="star">一颗星星</button></div>
-        <label class="name-label" for="plush-name">它叫什么？<input id="plush-name" type="text" maxlength="16" value="小小布偶" autocomplete="off" /></label>
+        <span class="tool-label">Pick a crayon</span>
+        <div class="crayon-colors" role="group" aria-label="Crayon colors">${drawingColors.map((color, i) => `<button data-crayon="${color}" style="--crayon:${color}" aria-label="${['Cocoa brown', 'Coral pink', 'Honey yellow', 'Sage green', 'Ocean blue', 'Lilac purple'][i]}" aria-pressed="${i === 0}"></button>`).join('')}</div>
+        <label class="brush-label" for="brush-size">Brush size <input id="brush-size" type="range" min="3" max="24" value="9" /></label>
+        <div class="drawing-edit"><button id="undo-drawing" class="secondary-button" disabled>${icon('undo', 15)} Undo</button><button id="clear-drawing" class="secondary-button" disabled>Clear</button></div>
+        <span class="tool-label starter-label">Or start with a little idea</span>
+        <div class="drawing-starters"><button data-drawing-starter="bunny">A bunny</button><button data-drawing-starter="star">A star</button></div>
+        <label class="name-label" for="plush-name">Name your friend<input id="plush-name" type="text" maxlength="16" value="Little Friend" autocomplete="off" /></label>
       </div>
     </div>
-    <div class="drawing-footer"><p id="drawing-message" role="status">作品只保存在这台设备。可以随时重新画。</p><button id="create-plush" class="primary-button" disabled>变成小布偶 ${icon('sparkle', 17)}</button></div>
-    <button id="play-with-plush" class="text-button" hidden>和上次画的朋友玩 ${icon('heart', 15)}</button>
+    <div class="drawing-footer"><p id="drawing-message" role="status">Saved on this device only. You can start again anytime.</p><button id="create-plush" class="primary-button" disabled>Make a plush ${icon('sparkle', 17)}</button></div>
+    <button id="play-with-plush" class="text-button" hidden>Play with your last friend ${icon('heart', 15)}</button>
   </section>
   <section id="together-panel" class="wonder-panel together-panel" role="dialog" aria-modal="true" aria-labelledby="together-panel-title" hidden>
-    <div class="panel-top"><span class="eyebrow">A LITTLE TIME, TOGETHER</span><button class="icon-button close-panel" aria-label="关闭一起玩菜单">${icon('close')}</button></div>
-    <h2 id="together-panel-title">这次，换你陪她玩。</h2>
-    <p class="panel-copy">一颗来回滚的小球，一次藏起来的惊喜。<br>你的小动作，她都会回应。</p>
+    <div class="panel-top"><span class="eyebrow">A LITTLE TIME, TOGETHER</span><button class="icon-button close-panel" aria-label="Close the play together menu">${icon('close')}</button></div>
+    <h2 id="together-panel-title">Your turn to play.</h2>
+    <p class="panel-copy">Roll a ball, hide a little surprise, or fill the air with bubbles.<br>Kaia will play along.</p>
     <div class="together-options">
-      <button data-together="roll"><span class="play-art">${toyIcon('ball')}</span><span><strong>小球，滚过来</strong><small>你传给她，她再滚回来。</small></span>${icon('arrow', 17)}</button>
-      <button data-together="hide"><span class="play-art hide-art">${icon('search', 34)}</span><span><strong>小熊藏在哪里？</strong><small>选一个藏身处，看她找呀找。</small></span>${icon('arrow', 17)}</button>
-      <button data-together="bubbles"><span class="play-art bubble-art">${icon('bubbles', 38)}</span><span><strong>吹一口，满屋泡泡</strong><small>点一下，或用麦克风轻轻吹。</small></span>${icon('arrow', 17)}</button>
+      <button data-together="roll"><span class="play-art">${toyIcon('ball')}</span><span><strong>Roll the ball</strong><small>Roll it to her and she’ll roll it back.</small></span>${icon('arrow', 17)}</button>
+      <button data-together="hide"><span class="play-art hide-art">${icon('search', 34)}</span><span><strong>Find Teddy</strong><small>Pick a hiding place and watch her look.</small></span>${icon('arrow', 17)}</button>
+      <button data-together="bubbles"><span class="play-art bubble-art">${icon('bubbles', 38)}</span><span><strong>Bubble time</strong><small>Tap to blow, or gently use your microphone.</small></span>${icon('arrow', 17)}</button>
     </div>
   </section>`;
 }

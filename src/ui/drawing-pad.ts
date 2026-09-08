@@ -91,7 +91,7 @@ export class DrawingPad {
       event.preventDefault();
       if (this.points >= maxDrawingPoints || this.strokes.length >= 150) {
         document.getElementById('drawing-message')!.textContent =
-          '这张画已经很丰富啦，先让它变成布偶吧。';
+          'This drawing is full of ideas. Let’s turn it into a plush!';
         return;
       }
       this.remember();
@@ -141,8 +141,9 @@ export class DrawingPad {
       button.addEventListener('click', () => {
         this.remember();
         this.strokes = starter(button.dataset.drawingStarter!);
-        if (this.name.value === '小小布偶')
-          this.name.value = button.dataset.drawingStarter === 'bunny' ? '小棉兔' : '小星星';
+        if (this.name.value === 'Little Friend')
+          this.name.value =
+            button.dataset.drawingStarter === 'bunny' ? 'Cotton Bunny' : 'Little Star';
         this.render();
       });
     });
@@ -181,6 +182,6 @@ export class DrawingPad {
     this.render();
   }
   drawing(): Drawing {
-    return { version: 1, name: this.name.value.trim() || '小小布偶', strokes: this.strokes };
+    return { version: 1, name: this.name.value.trim() || 'Little Friend', strokes: this.strokes };
   }
 }

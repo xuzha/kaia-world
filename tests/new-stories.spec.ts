@@ -199,7 +199,7 @@ test('night effects freeze with the simulation, stop offstage, and restore the r
   const polarTime = (await effects()).aurora;
   await enter(page, 'forest');
   expect((await effects()).aurora).toBeGreaterThanOrEqual(polarTime);
-  await expect(page.locator('#weather')).toContainText('月光森林');
+  await expect(page.locator('#weather')).toContainText('Moonlit forest');
   expect(await lighting()).not.toEqual(roomLights);
   const before = await effects();
   await page.evaluate(() => (window as any).__KAIA__.step(2));
@@ -212,7 +212,7 @@ test('night effects freeze with the simulation, stop offstage, and restore the r
   await page.waitForTimeout(350);
   expect(await effects()).toEqual(after);
   await page.locator('#weather').click();
-  await expect(page.locator('#weather')).toContainText('夜更深了');
+  await expect(page.locator('#weather')).toContainText('Deep night');
   const sky = await page.evaluate(() =>
     (window as any).__KAIA__.objects.room.parent.background.getHexString(),
   );
@@ -220,7 +220,7 @@ test('night effects freeze with the simulation, stop offstage, and restore the r
   await page.locator('#weather').click();
   await page.locator('#open-imagination').click();
   await page.locator('#leave-story').click();
-  await expect(page.locator('#weather')).toContainText('午后阳光');
+  await expect(page.locator('#weather')).toContainText('Afternoon');
   await expect
     .poll(async () =>
       (await lighting()).every(

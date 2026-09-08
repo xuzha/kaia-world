@@ -14,9 +14,9 @@ const rollSeat = { x: 0.55, z: 0.7 };
 const ballNear = 1.44,
   ballFar = 3.55;
 const hidingPlaces = [
-  { x: -2.15, z: 0.05, name: '靠枕后面', color: colors.sage },
-  { x: 3.05, z: 1.5, name: '小篮子里', color: colors.oat },
-  { x: 0.0, z: 4.75, name: '野餐毯下', color: colors.coral },
+  { x: -2.15, z: 0.05, name: 'behind the cushion', color: colors.sage },
+  { x: 3.05, z: 1.5, name: 'in the basket', color: colors.oat },
+  { x: 0.0, z: 4.75, name: 'under the blanket', color: colors.coral },
 ];
 interface Bubble {
   mesh: THREE.Mesh;
@@ -141,8 +141,8 @@ export class Together {
     this.phase = 'waiting';
     this.setStatus(
       this.director.state === 'playing'
-        ? '等 Kaia 玩好手上的玩具，安全下来就来找你。'
-        : 'Kaia 这就来陪你玩。',
+        ? 'Kaia will finish playing and come down safely before joining you.'
+        : 'Kaia is coming to play with you.',
     );
   }
 
@@ -186,7 +186,7 @@ export class Together {
     );
     if (!this.path.length) {
       this.stop();
-      this.react('这里有点挤，先陪我回到软垫上吧。');
+      this.react('It’s a bit crowded. Let’s go back to the mat.');
       return;
     }
     this.phase = 'walking';
@@ -205,18 +205,18 @@ export class Together {
     this.rounds = 0;
     if (mode === 'roll') {
       this.positionBall(ballFar);
-      this.walkTo(rollSeat, '等她坐好，就可以把小球滚过去啦。');
+      this.walkTo(rollSeat, 'Once she sits down, you can roll the ball to her.');
     } else if (mode === 'hide') {
       this.hiddenAt = -1;
-      this.walkTo(rollSeat, '等她站好，再把小熊藏起来。');
+      this.walkTo(rollSeat, 'Wait until she is ready, then hide Teddy.');
     } else if (mode === 'bubbles') {
       this.bubbles.visible = true;
       this.popped = 0;
-      this.walkTo(rollSeat, 'Kaia 过来啦，先吹几个泡泡迎接她。');
+      this.walkTo(rollSeat, 'Kaia is on her way. Blow a few bubbles to welcome her.');
     } else {
       this.walkTo(
         { x: this.plush.home.x, z: this.plush.home.z + 0.83 },
-        `去认识你画的「${this.plush.name}」。`,
+        `Coming to meet your drawing, ${this.plush.name}.`,
       );
     }
   }
@@ -237,18 +237,20 @@ export class Together {
           if (this.hiddenAt < 0) this.hideAgain();
           else {
             this.phase = 'checking';
-            this.setStatus(`她在${hidingPlaces[this.searchOrder[this.searchIndex]].name}找一找…`);
+            this.setStatus(
+              `She’s looking ${hidingPlaces[this.searchOrder[this.searchIndex]].name}…`,
+            );
           }
         } else if (this.mode === 'plush') {
           this.phase = 'hugging';
-          this.setStatus(`「${this.plush.name}」，可以抱抱你吗？`);
-          this.react('这是你画给我的呀！');
+          this.setStatus(`${this.plush.name}, may I give you a hug?`);
+          this.react('You drew this just for me!');
         } else {
           this.phase = 'ready';
           this.setStatus(
             this.mode === 'roll'
-              ? '她坐好啦。点小球，或按下面的按钮传球。'
-              : '吹几个泡泡，看她伸手去够。点泡泡还可以戳破。',
+              ? 'She’s ready! Tap the ball or the button below to roll it to her.'
+              : 'Blow bubbles and watch her reach for them. Tap a bubble to pop it.',
           );
         }
       }
@@ -286,7 +288,7 @@ export class Together {
     if (this.mode !== 'roll' || this.phase !== 'ready') return;
     this.phase = 'outgoing';
     this.elapsed = 0;
-    this.setStatus('小球滚过去啦…她伸手接住了！');
+    this.setStatus('The ball rolls over… and she catches it!');
   }
   private positionBall(z: number) {
     const ball = this.ball.parts.ball,
@@ -302,20 +304,20 @@ export class Together {
       if (this.elapsed >= 1.65) {
         this.phase = 'catching';
         this.elapsed = 0;
-        this.react('接住啦！轮到我～');
+        this.react('Got it! My turn!');
       }
     } else if (this.phase === 'catching' && this.elapsed >= 0.75) {
       this.phase = 'returning';
       this.elapsed = 0;
-      this.setStatus('轮到 Kaia。她把小球滚回你这边。');
+      this.setStatus('Kaia’s turn. She’s rolling the ball back to you.');
     } else if (this.phase === 'returning') {
       this.positionBall(THREE.MathUtils.lerp(ballNear, ballFar, ease(this.elapsed / 1.8)));
       if (this.elapsed >= 1.8) {
         this.phase = 'ready';
         this.elapsed = 0;
         this.rounds++;
-        this.setStatus('到你啦！她还想再来一次。');
-        this.react('还要，还要！', true);
+        this.setStatus('Your turn! She’d love to play again.');
+        this.react('Again, again!', true);
       }
     }
     turnToward(this.director.character.root, 0, dt);
@@ -358,7 +360,7 @@ export class Together {
     this.searchOrder = [(index + 1 + Math.floor(Math.random() * 2)) % 3, index];
     this.searchIndex = 0;
     this.searchNext();
-    this.react('藏好了吗？我来找你啦！');
+    this.react('Ready or not, here I come!');
   }
   hideAgain() {
     if (this.mode !== 'hide') return;
@@ -374,11 +376,11 @@ export class Together {
     });
     this.phase = 'choosing';
     this.elapsed = 0;
-    this.setStatus('她捂住眼睛啦。点一个藏身处，把小熊藏起来。');
+    this.setStatus('She’s covering her eyes. Choose a spot to hide Teddy.');
   }
   private searchNext() {
     const spot = hidingPlaces[this.searchOrder[this.searchIndex]];
-    this.walkTo({ x: spot.x, z: spot.z + 0.94 }, `她去${spot.name}看看，跟上小脚步…`);
+    this.walkTo({ x: spot.x, z: spot.z + 0.94 }, `She’s checking ${spot.name}. Follow along…`);
   }
   private updateHide(dt: number, time: number) {
     const kaia = this.director.character;
@@ -415,11 +417,11 @@ export class Together {
         if (index === this.hiddenAt) {
           this.phase = 'found';
           this.rounds++;
-          this.setStatus('找到小熊啦！再藏一次，还是陪它坐一会儿？');
-          this.react('原来你在这里！', true);
+          this.setStatus('Found Teddy! Hide again, or sit together for a little while.');
+          this.react('There you are!', true);
         } else {
           this.searchIndex++;
-          this.react('咦，不在这里。再找找！');
+          this.react('Not here. Let’s keep looking!');
           this.searchNext();
         }
       }
@@ -449,7 +451,7 @@ export class Together {
         -0.25 - Math.random() * 0.12,
       );
     }
-    if (available.length) this.react('好多圆圆的小彩虹！');
+    if (available.length) this.react('So many tiny, round rainbows!');
     this.onChange();
   }
   pop(index: number) {
@@ -458,8 +460,8 @@ export class Together {
     bubble.life = 0;
     bubble.mesh.visible = false;
     this.popped++;
-    this.react('啵！再吹一个吧。', true);
-    this.setStatus(`啵！已经戳破 ${this.popped} 个小泡泡。`);
+    this.react('Pop! Let’s blow another one.', true);
+    this.setStatus(`Pop! Bubbles popped: ${this.popped}.`);
   }
   private updateBubbles(dt: number, time: number) {
     for (let i = 0; i < this.particles.length; i++) {
@@ -477,7 +479,7 @@ export class Together {
     if (this.mode !== 'plush' || this.phase !== 'ready') return;
     this.phase = 'hugging';
     this.elapsed = 0;
-    this.setStatus(`再给「${this.plush.name}」一个软软的拥抱。`);
+    this.setStatus(`One more gentle hug for ${this.plush.name}.`);
   }
   private updatePlush(dt: number, time: number) {
     const kaia = this.director.character,
@@ -512,8 +514,8 @@ export class Together {
     } else if (holding) {
       if (this.plush.root.parent !== kaia.body) {
         kaia.body.add(this.plush.root);
-        this.setStatus(`把「${this.plush.name}」抱进怀里，轻轻摇一摇。`);
-        this.react('软软的，喜欢你！', true);
+        this.setStatus(`Holding ${this.plush.name} close and rocking gently.`);
+        this.react('You’re so soft. I love you!', true);
       }
       this.plush.root.position.set(0, 0.7, 0.49);
       this.plush.root.rotation.set(0, 0, Math.sin(time * 2.6) * 0.025);
@@ -529,7 +531,7 @@ export class Together {
       if (t >= 8) {
         this.plush.putHome();
         this.phase = 'ready';
-        this.setStatus(`「${this.plush.name}」有了第一个好朋友。想再抱抱它吗？`);
+        this.setStatus(`${this.plush.name} has a first best friend. Time for another hug?`);
       }
     }
   }

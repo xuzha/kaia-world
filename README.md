@@ -1,98 +1,98 @@
-# Kaia’s little world · Kaia 的小小世界
+# Kaia’s little world
 
-用 Three.js 做的一间绘本风格游戏室。两岁的 Kaia 会自己挑玩具，走过去玩一会儿，再寻找下一份快乐；爸爸妈妈偶尔来陪玩。
+A storybook playroom built with Three.js. Two-year-old Kaia chooses toys, walks over to play, then wanders off to her next little discovery. Mom and Dad drop by from time to time.
 
-在线体验：[Kaia 的小小世界](https://xuzha.github.io/kaia-world/)。
+Play online: [Kaia’s little world](https://xuzha.github.io/kaia-world/).
 
-## 本地运行
+## Run locally
 
-需要 Node.js 22.12+（或 20.19+）。
+Requires Node.js 22.12+ (or 20.19+).
 
 ```sh
 npm ci
 npm run dev
 ```
 
-打开 **http://127.0.0.1:5173**。Vite 支持 CSS 热更新和代码修改后的自动刷新。默认只监听本机；如需在同一网络的手机上访问，运行 `npm run dev -- --host 0.0.0.0`，再打开电脑的局域网 IP。
+Open **http://127.0.0.1:5173**. Vite updates styles and reloads code changes automatically. The server listens on localhost by default. To try it on a phone on the same network, run `npm run dev -- --host 0.0.0.0` and open your computer’s local network IP on port 5173.
 
 ```sh
-npm run build       # TypeScript 检查与生产构建，输出 dist/
-npm run preview     # 本地预览生产构建，默认 4173 端口
-npm test            # 避障寻路、绘画数据和轮廓测试
-npm run test:e2e    # 真实浏览器交互、动画和手机布局测试
+npm run build       # Type-check and build the production app in dist/
+npm run preview     # Preview the production build, on port 4173 by default
+npm test            # Test navigation, drawing data, and outlines
+npm run test:e2e     # Test browser interactions, animations, and mobile layouts
 ```
 
-浏览器测试默认使用本机 Chrome。也可运行 `npx playwright install chromium` 后通过 `PLAYWRIGHT_CHANNEL=chromium npm run test:e2e` 使用 Playwright Chromium。
+Browser tests use your installed Chrome by default. To use Playwright Chromium instead, run `npx playwright install chromium`, followed by `PLAYWRIGHT_CHANNEL=chromium npm run test:e2e`.
 
 ## GitHub Pages
 
-在 GitHub 仓库的 **Settings → Pages → Build and deployment** 中选择 **GitHub Actions**，然后将代码推送到 `main`。
+In the repository’s **Settings → Pages → Build and deployment**, select **GitHub Actions**, then push to `main`.
 
-工作流会从公开 npm 安装锁定的依赖，检查格式，运行单元测试和 Chromium 浏览器测试，并构建 `dist/`。Pull request 运行同样的检查；`main` 的推送和手动触发会更新网站。发布地址可在仓库的 **Actions → Validate and deploy Kaia → deploy** 中查看。
+The workflow installs locked dependencies from public npm, checks formatting, runs unit and Chromium browser tests, and builds `dist/`. Pull requests run the same checks. Pushes to `main` and manual workflow runs update the website. Find the deployed URL under **Actions → Validate and deploy Kaia → deploy**.
 
-浏览器测试分八组并行执行，构建和所有测试通过后才会发布。云端以较低的画布像素密度适配软件渲染，按正常 CSS 视口检查布局和交互。失败时可在 Actions 下载错误截图和调用轨迹。
+Browser tests run in eight parallel groups. Deployment waits for the build and every test group to pass. Cloud runners use a lower canvas pixel density for software rendering while testing layout and interactions at the normal CSS viewport size. Failure screenshots and call traces are available as Actions artifacts.
 
-网站使用相对资源路径，支持 GitHub Pages 的仓库子目录，也可以把 `dist/` 放到其他静态网站托管服务。
+Relative asset paths support GitHub Pages project subdirectories. You can also upload `dist/` to another static website host.
 
-## 在这个世界里
+## Inside this little world
 
-- 拖拽旋转，滚轮或双指缩放；右侧按钮可放大、缩小、换角度和恢复全景。旋转范围保留在房间的开放一侧，避免墙面遮挡角色。
-- 点 3D 玩具或底部插画，邀请 Kaia 玩；双击 3D 玩具可以靠近看。爬梯和骑木马等动作会完成后再响应下一个邀请。
-- Kaia 去找玩具时会偶尔小跑，屈膝、摆臂，落地后接着迈步。开阔路段才会加速，接近转弯或玩具时恢复走路。
-- 关闭 Kaia 状态卡上的开关后，她会完成当前活动，再等待你的邀请。
-- 点「妈」「爸」可邀请父母；他们也会随机来访、招手、陪伴，之后离开。
-- 可以暂停时光、切换暖灯、开启轻柔的音乐盒声音，或保存一张小世界的照片。声音默认关闭。
-- 「去想象」：选一本航海、太空、动物园、冰雪极地或森林树屋绘本，等 Kaia 翻开，整个房间和周围环境一起改变。航海是有甲板、船帆、岛屿和海鸥的大船；太空是被地球、环形星球与卫星围绕的空间站；动物园有一只猫、一只狗、四只跳跃的小兔、横杆上的两只鹦鹉，以及鸭子池另一侧的大水池和游动的鳄鱼；极地有冰屋、企鹅、海豹、浮冰与流动极光；夜晚树屋有木平台、吊桥、溪流、萤火虫与抱着松果的松鼠。森林始终保持夜景，可用右上角按钮调亮或调暗。八种玩具和一起玩都保留，航海时城堡变灯塔、木马变小帆船。可以换一本绘本，也可以合上书回到游戏室。
-- 「画个玩具」：用鼠标或手指画画，或从小兔、星星开始，选择颜色、笔触、撤回，再给作品取名。它会保留画面的颜色与轮廓，变成有厚度和缝线的布偶，Kaia 会抱起它、摇一摇，再放回来。只在当前设备保存最近生成的一只，刷新后仍可点击它一起玩；绘画和生成都在浏览器内完成。
-- 「一起玩」：把球滚给 Kaia，等她滚回来；将小熊藏在三个地方之一，看她走过去寻找；点按钮吹泡泡，或主动开启麦克风吹气，再点场景中的泡泡戳破它们。结束后恢复自主探索设置；高处活动会安全结束后再加入新玩法。
-- 麦克风只在点「用麦克风吹」后请求权限，检测音量而不录音或上传。暂停、退出玩法、打开菜单或离开页面会关闭麦克风。它需要 HTTPS 或 localhost；不支持或拒绝授权时仍可用按钮吹泡泡。
-- 聚焦游戏室后，可用 `Space` 暂停、`+` / `-` 缩放、方向键旋转、`Home` 恢复全景，数字 `1`–`8` 邀请对应玩具。系统启用减少动态效果时，初始为暂停。
+- Drag to rotate; scroll or pinch to zoom. The buttons on the right zoom in and out, change the angle, and restore the full view. Rotation stays on the open side of the room so walls do not hide the characters.
+- Tap a 3D toy or its illustration in the dock to invite Kaia to play. Double-click a 3D toy to look closer. She finishes activities such as climbing or riding before moving to the next toy.
+- Kaia occasionally runs on her way to a toy, bending her knees and swinging her arms. She speeds up only on open paths and returns to walking near turns or toys.
+- Turn off the switch on Kaia’s status card to let her finish her current activity and wait for your next invitation.
+- Tap **Mom** or **Dad** to invite a parent. They also visit on their own, wave, spend time with Kaia, and leave.
+- Pause time, switch to warm evening lights, turn on gentle music box sounds, or save a photo. Sound starts off.
+- **Imagine:** Choose an Ocean, Space, Zoo, Polar, or Treehouse story. When Kaia opens the book, the room and its surroundings change together. Ocean brings a ship with a deck, sails, islands, and seagulls. Space surrounds a station with Earth, Saturn, and satellites. Zoo has one cat, one dog, four hopping bunnies, two perched parrots, and a large crocodile pond opposite the duck pond. Polar has an igloo, penguins, seals, ice floes, and moving northern lights. The nighttime treehouse has a wooden platform, rope bridge, stream, fireflies, and squirrels holding pinecones. The forest always stays at night; the top-right button brightens or dims it. All eight toys and shared activities remain available. At sea, the castle becomes a lighthouse and the rocking horse becomes a small sailboat. Choose another story or close the book to return to the playroom.
+- **Draw a toy:** Draw with a mouse or finger, or start with a bunny or star. Choose colors and brush size, undo strokes, and name your creation. Its colors and outline become a 3D plush with depth and stitching. Kaia picks it up, rocks it gently, and puts it back. Only the most recently created plush is saved on the current device; it remains available after a reload. Drawing and plush creation happen entirely in your browser.
+- **Play together:** Roll a ball to Kaia and wait for her to roll it back; hide Teddy in one of three places and watch her search; or blow bubbles with a button or your microphone, then tap them to pop. Free exploration returns to its previous setting when you finish. Kaia comes down safely from elevated toys before joining a new activity.
+- The microphone asks for permission only when you tap **Use microphone**. It measures volume without recording or uploading audio. Pausing, ending the activity, opening a menu, or leaving the page turns it off. Microphone access requires HTTPS or localhost. The bubble button works even when microphone access is unavailable or denied.
+- With the playroom focused, use `Space` to pause, `+` / `-` to zoom, arrow keys to rotate, `Home` to restore the full view, and `1`–`8` to choose a toy. The app starts paused when the system’s reduced motion preference is enabled.
 
-软垫尺寸为 **8.6 × 7 米，约 60㎡**，中间保持相对空旷。房间、角色、玩具全部使用程序化几何体；木纹、织物、书封等贴图在本地生成。太空主题使用随应用打包的银河全景和地球纹理，来源与许可见 [素材说明](public/assets/space/README.md)；运行时无需外部模型、贴图、字体或声音服务。
+The play mat measures **8.6 × 7 meters (about 60 m²)**, with an open center. The room, characters, and toys use procedural geometry; wood grain, fabric, and book cover textures are generated locally. The space theme bundles Milky Way and Earth images; see the [asset credits and licenses](public/assets/space/README.md). No external model, texture, font, or audio service is needed at runtime.
 
-## 玩具与动作
+## Toys and activities
 
-| 玩具     | Kaia 的动作                          |
-| -------- | ------------------------------------ |
-| 小小城堡 | 爬梯、走过平台、坐下滑梯、站起来     |
-| 彩色积木 | 蹲下、拿起积木、摆上去               |
-| 故事角落 | 坐下读绘本、翻页、低头看书           |
-| 滚滚皮球 | 踢球、追球、看球弹跳                 |
-| 森林木马 | 上木马、随木马摇摆、下来             |
-| 小小乐队 | 蹲下、左右手交替敲木琴               |
-| 泰迪茶会 | 拿起茶壶、给小熊倒茶                 |
-| 彩虹拱桥 | 桥外跪低、手膝交替爬过、出桥起身招手 |
+| Toy           | What Kaia does                                                           |
+| ------------- | ------------------------------------------------------------------------ |
+| Little Castle | Climbs the ladder, crosses the platform, sits, slides, and stands up     |
+| Color Blocks  | Squats, picks up a block, and adds it to the stack                       |
+| Story Corner  | Sits down to read a picture book, turns pages, and looks at the pictures |
+| Bouncy Ball   | Kicks, chases, and watches the ball bounce                               |
+| Rocking Horse | Climbs on, rocks back and forth, and gets off                            |
+| Little Band   | Squats and plays the xylophone with alternating hands                    |
+| Teddy Tea     | Picks up the teapot and pours tea for Teddy                              |
+| Rainbow Arch  | Kneels, crawls under the arch on hands and knees, then stands and waves  |
 
-## 扩展入口
+## Extending the world
 
 ```text
 src/
-  play/               五本想象绘本、绘画轮廓与布偶、一起玩、麦克风生命周期
-  toys/              玩具模型、可动画部件、碰撞范围、注册表
+  play/               Five story worlds, drawings and plush toys, shared play, microphone lifecycle
+  toys/               Toy models, animated parts, collision bounds, and registry
   characters/
-    rig.ts            Kaia 与父母的关节、脚踝、接地姿态
-    appearance.ts     连续的脸颊、刘海、眼神与头饰造型
-    actions.ts        玩具动作：姿态、位移、道具动画
-    director.ts       选玩具 → 寻路 → 玩耍 → 下一次探索
-    family.ts         父母来访、陪玩、离开
+    rig.ts            Joints, ankles, and grounded poses for Kaia and her parents
+    appearance.ts     Cheeks, bangs, eyes, and hair accessories
+    actions.ts        Toy activities: poses, movement, and prop animation
+    director.ts       Choose a toy → find a path → play → explore again
+    family.ts         Parent visits, shared play, and departures
   world/
-    room.ts           房间、书架、爬爬垫与装饰
-    palette.ts        颜色、程序化木纹与织物贴图
-    primitives.ts     圆角几何、植物、书本等建模工具
-    navigation.ts     预留身体宽度的 A* 避障寻路和路径平滑
-    stage.ts          摄像机、光照、缩放旋转、尺寸适配
-    atmosphere.ts     阳光尘埃与小爱心
-    audio.ts          音乐盒声音合成
-  ui/                 界面与手绘风格玩具 SVG 插画
+    room.ts           Room, shelves, play mat, and decorations
+    palette.ts        Colors and procedural wood and fabric textures
+    primitives.ts     Rounded geometry, plants, books, and other modeling helpers
+    navigation.ts     A* navigation and path smoothing with clearance for the body
+    stage.ts          Camera, lighting, zoom, rotation, and responsive sizing
+    atmosphere.ts     Sunlit dust and little hearts
+    audio.ts          Synthesized music box sounds
+  ui/                 Interface and hand-drawn toy SVG illustrations
 ```
 
-新增玩具时：
+To add a toy:
 
-1. 在 `toys/` 新建模型工厂，返回 `ToyModel`：`root`、命名的 `parts`、局部坐标的 `obstacles`，以及需要时的 `update` / `reset`。
-2. 在 `toys/types.ts` 增加玩具 ID，并在 `toys/registry.ts` 注册名称、位置、接近点、持续时间和动作。接近点必须留出角色的避障半径。
-3. 复用已有 `action`；如果玩法不同，在 `characters/actions.ts` 增加一段动作。动作结束位置必须回到可通行地面，高处活动由动作自身控制路径。
-4. 在 `ui/icons.ts` 增加该玩具的插画。界面与自主选择器从同一份注册表读取玩具。
+1. Create a model factory in `toys/` that returns a `ToyModel`: `root`, named `parts`, local-coordinate `obstacles`, and optional `update` / `reset` methods.
+2. Add the toy ID to `toys/types.ts` and register its name, position, approach point, duration, and activity in `toys/registry.ts`. Leave enough clearance at the approach point for the character’s navigation radius.
+3. Reuse an existing `action`, or add one in `characters/actions.ts` for a different activity. Actions must end on walkable ground; elevated activities control their own paths.
+4. Add the toy’s illustration to `ui/icons.ts`. The interface and autonomous selector use the same toy registry.
 
-模型使用米为单位、Y 向上、局部 +Z 为正面。`Pose` 描述关节旋转和重心变化，由角色统一平滑过渡；呼吸、眨眼和发辫轻微摆动独立叠加。代码格式统一使用 Prettier。
+Models use meters, with Y up and local +Z facing forward. `Pose` describes joint rotations and center-of-mass shifts, smoothly blended by the character. Breathing, blinking, and subtle hair movement are layered independently. Code is formatted with Prettier.
 
-开发时打开 `/?inspect=1` 可使用 `window.__KAIA__` 手动推进同一套模拟逻辑，复查某个动作时刻。该检查入口在生产构建中被移除。
+In development, open `/?inspect=1` to use `window.__KAIA__` to step through the same simulation and inspect specific animation moments. This inspector is removed from production builds.

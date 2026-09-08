@@ -97,7 +97,7 @@ test('the ocean book waits for a safe castle exit, replaces the room with a ship
     roof: false,
     horse: false,
   });
-  await expect(page.locator('#world-name')).toHaveText('Kaia 的海上小船');
+  await expect(page.locator('#world-name')).toHaveText('Kaia’s sailing ship');
   await page.locator('#open-imagination').click();
   await page.locator('#leave-story').click();
   await step(page, 3);
@@ -154,13 +154,13 @@ test('a drawing becomes a textured 3D plush, is hugged safely, and survives a re
     steps: 10,
   });
   await page.mouse.up();
-  await page.locator('#plush-name').fill('团团');
+  await page.locator('#plush-name').fill('Cuddles');
   await page.locator('#create-plush').click();
   await reach(page, 'plush', 'hugging');
   await step(page, 2);
   const hugging = await state(page);
   expect(hugging.plush.held).toBe(true);
-  expect(hugging.plush.name).toBe('团团');
+  expect(hugging.plush.name).toBe('Cuddles');
   expect(hugging.floorIsFree).toBe(true);
   const artwork = await page.evaluate(() => {
     const plush = (window as any).__KAIA__.objects.plush;
@@ -182,9 +182,9 @@ test('a drawing becomes a textured 3D plush, is hugged safely, and survives a re
   expect((await state(page)).plush.held).toBe(false);
   await page.locator('#end-together').click();
   await prepare(page);
-  expect((await state(page)).plush).toMatchObject({ name: '团团', visible: true, held: false });
+  expect((await state(page)).plush).toMatchObject({ name: 'Cuddles', visible: true, held: false });
   await page.locator('#open-drawing').click();
-  await expect(page.locator('#plush-name')).toHaveValue('团团');
+  await expect(page.locator('#plush-name')).toHaveValue('Cuddles');
   await page.locator('#clear-drawing').click();
   await expect(page.locator('#create-plush')).toBeDisabled();
   await page.locator('#undo-drawing').click();
@@ -311,7 +311,7 @@ test('microphone denial leaves click play available without requesting access on
   await start(page, 'bubbles');
   expect(await page.evaluate(() => (window as any).__micRequests)).toBe(0);
   await page.locator('#bubble-mic').click();
-  await expect(page.locator('#mic-status')).toContainText('没能打开麦克风');
+  await expect(page.locator('#mic-status')).toContainText('Couldn’t open the microphone');
   expect(await page.evaluate(() => (window as any).__micRequests)).toBe(1);
   expect((await state(page)).microphone.state).toBe('off');
   await page.locator('#blow-bubbles').click();
@@ -393,7 +393,7 @@ test('phone controls, drawing, and keyboard focus fit without horizontal overflo
   await page.locator('#open-drawing').click();
   await expect(page.locator('#drawing-panel .close-panel')).toBeFocused();
   await page.locator('[data-drawing-starter="star"]').click();
-  await page.locator('#plush-name').fill('星星');
+  await page.locator('#plush-name').fill('Star');
   await page.locator('#create-plush').scrollIntoViewIfNeeded();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.keyboard.press('Escape');
