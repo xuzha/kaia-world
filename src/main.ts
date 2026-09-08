@@ -258,10 +258,12 @@ function updateSpeech() {
 }
 renderer.setAnimationLoop(() => {
   const now = performance.now(),
-    dt = Math.min((now - lastTime) / 1000, 0.05);
+    elapsed = (now - lastTime) / 1000,
+    dt = Math.min(elapsed, 0.05);
   lastTime = now;
   if (!paused && !manual && !document.hidden) updateSimulation(dt);
-  room.updateLighting(stage.update(dt));
+  // Visual transitions follow wall time while simulation steps stay bounded.
+  room.updateLighting(stage.update(elapsed));
   updateSpeech();
   renderer.render(scene, camera);
 });

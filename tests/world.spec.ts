@@ -124,26 +124,33 @@ test('camera buttons, drag, wheel, pause, lighting, audio, and photo download wo
   page,
 }) => {
   await prepare(page);
+  const homeCamera = (await state(page)).camera;
   await page.locator('#zoom-in').click();
-  await page.waitForTimeout(800);
-  expect((await state(page)).camera.zoom).toBeGreaterThan(1);
+  await expect.poll(async () => (await state(page)).camera.zoom).toBeGreaterThan(1);
   const before = (await state(page)).camera.position;
   await page.locator('#rotate').click();
-  await page.waitForTimeout(800);
-  expect((await state(page)).camera.position).not.toEqual(before);
+  await expect.poll(async () => (await state(page)).camera.position).not.toEqual(before);
   await page.locator('#reset-camera').click();
-  await page.waitForTimeout(800);
-  expect((await state(page)).camera.zoom).toBeCloseTo(1);
+  await expect
+    .poll(async () => {
+      const camera = (await state(page)).camera;
+      return Math.max(
+        Math.abs(camera.zoom - homeCamera.zoom),
+        ...camera.position.map((value: number, i: number) =>
+          Math.abs(value - homeCamera.position[i]),
+        ),
+        ...camera.target.map((value: number, i: number) => Math.abs(value - homeCamera.target[i])),
+      );
+    })
+    .toBeLessThan(0.005);
   const dragBefore = (await state(page)).camera.position;
   await page.mouse.move(960, 660);
   await page.mouse.down();
   await page.mouse.move(1080, 600, { steps: 12 });
   await page.mouse.up();
-  await page.waitForTimeout(350);
-  expect((await state(page)).camera.position).not.toEqual(dragBefore);
+  await expect.poll(async () => (await state(page)).camera.position).not.toEqual(dragBefore);
   await page.mouse.wheel(0, -300);
-  await page.waitForTimeout(250);
-  expect((await state(page)).camera.zoom).toBeGreaterThan(1);
+  await expect.poll(async () => (await state(page)).camera.zoom).toBeGreaterThan(1);
   await page.locator('#weather').click();
   await expect(page.locator('body')).toHaveClass('night');
   await page.locator('#sound').click();
@@ -157,8 +164,7 @@ test('camera buttons, drag, wheel, pause, lighting, audio, and photo download wo
   expect((await state(page)).time).toBe(stopped);
   await expect(page.locator('#pause-indicator')).toBeVisible();
   await page.locator('#pause').click();
-  await page.waitForTimeout(200);
-  expect((await state(page)).time).toBeGreaterThan(stopped);
+  await expect.poll(async () => (await state(page)).time).toBeGreaterThan(stopped);
   const downloadPromise = page.waitForEvent('download');
   await page.locator('#snapshot').click();
   const download = await downloadPromise;
@@ -230,9 +236,8 @@ test('touch gestures pinch to zoom and drag to rotate without selecting a toy', 
     });
   }
   await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
-  await page.waitForTimeout(250);
+  await expect.poll(async () => (await state(page)).camera.zoom).toBeGreaterThan(1.2);
   const zoomed = await state(page);
-  expect(zoomed.camera.zoom).toBeGreaterThan(1.2);
   await cdp.send('Input.dispatchTouchEvent', {
     type: 'touchStart',
     touchPoints: [{ x: 160, y: 420, id: 1 }],
@@ -244,9 +249,10 @@ test('touch gestures pinch to zoom and drag to rotate without selecting a toy', 
     });
   }
   await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
-  await page.waitForTimeout(300);
+  await expect
+    .poll(async () => (await state(page)).camera.position)
+    .not.toEqual(zoomed.camera.position);
   const rotated = await state(page);
-  expect(rotated.camera.position).not.toEqual(zoomed.camera.position);
   expect(rotated.toy).toBeUndefined();
   await context.close();
 });
